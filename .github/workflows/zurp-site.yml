@@ -1,0 +1,20 @@
+name: Site zUrp
+
+on:
+  release:
+    types: [published, unpublished, deleted]
+  push:
+    branches: [main]
+    paths: ["9_Assets/**", "LICENSE", "LICENSE-HARDWARE"]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reconstruire le site
+        env:
+          GH_TOKEN: ${{ secrets.ZURP_SITE_DISPATCH }}
+        run: gh api repos/zUrp-Astronomics/zurp-astronomics.github.io/dispatches -f event_type=zurp-catalog
